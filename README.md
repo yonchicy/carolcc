@@ -1,3 +1,3 @@
-# WLKL-Compiler
+# Carol-Compiler
 
-WLKL-Compiler
+Carol-Compiler
