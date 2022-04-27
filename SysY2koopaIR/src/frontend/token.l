@@ -3,8 +3,8 @@
 
 #include <string>
 #include <iostream>
-#include "../../include/node.h"
-#include "./parser.hpp"
+#include "node.h"
+#include "./parser.h"
 extern int yyline;
 
 #define SAVE_TOKEN yylval.string = new std::string(yytext,yyleng)

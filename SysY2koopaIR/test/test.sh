@@ -6,7 +6,7 @@ do
   qemu-riscv64 tmp
   expected="$?"
 
-  ../build/easycc "$c_file" -o tmp.s || exit
+  ../build/compiler "$c_file" -o tmp.s || exit
   riscv64-unknown-elf-gcc -o tmp tmp.s
   qemu-riscv64 tmp
   actual="$?"

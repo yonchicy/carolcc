@@ -3,9 +3,9 @@
 #include <cstdio>
 #include <iostream>
 #include <cstring>
-#include "../include/error.h"
-#include "../include/node.h"
-#include "./frontend/parser.hpp"
+#include "error.h"
+#include "node.h"
+#include "frontend/parser.h"
 
 extern int yyparse();
 extern int     yyrestart(FILE*);
