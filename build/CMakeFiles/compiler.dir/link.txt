@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/compiler.dir/src/ast.cpp.o CMakeFiles/compiler.dir/src/error.cpp.o CMakeFiles/compiler.dir/src/frontend/parser.cpp.o CMakeFiles/compiler.dir/src/frontend/token.cpp.o CMakeFiles/compiler.dir/src/main.cpp.o CMakeFiles/compiler.dir/src/node.cpp.o CMakeFiles/compiler.dir/src/runtime.cpp.o -o compiler 

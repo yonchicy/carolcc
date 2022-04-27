@@ -1,7 +1,6 @@
-#include "../include/error.h"
-#include "../include/node.h"
+#include "error.h"
+#include "node.h"
 #include <cstdio>
-#include <cstdlib>
 NODE base_node = NODE();
 NODE base_ir = NODE();
 void test(){

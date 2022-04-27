@@ -1,6 +1,6 @@
 %{
-    #include "../../include/node.h"
-    #include "../../include/error.h"
+    #include "node.h"
+    #include "error.h"
     #include <vector>
     #include <typeinfo>
     extern NODE base_node;

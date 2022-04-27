@@ -1,8 +1,7 @@
-#include  "../include/node.h"
-#include  "../include/error.h"
-#include  "../include/runtime.h"
+#include  "node.h"
+#include  "error.h"
+#include  "runtime.h"
 #include <cstdio>
-#include <type_traits>
 
 NODE* NODE::new_node(TYPE_SET node_type){
   NODE* node = new NODE();

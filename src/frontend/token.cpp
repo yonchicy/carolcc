@@ -1,6 +1,6 @@
-#line 1 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.cpp"
+#line 1 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.cpp"
 
-#line 3 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.cpp"
+#line 3 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -499,8 +499,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
-#line 3 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 1 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
+#line 3 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 
 #include <string>
 #include <iostream>
@@ -510,8 +510,8 @@ extern int yyline;
 
 #define SAVE_TOKEN yylval.string = new std::string(yytext,yyleng)
 #define TOKEN(t) (yylval.token=t)
-#line 513 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.cpp"
-#line 514 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.cpp"
+#line 513 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.cpp"
+#line 514 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.cpp"
 
 #define INITIAL 0
 
@@ -728,10 +728,10 @@ YY_DECL
 		}
 
 	{
-#line 15 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 15 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 
 
-#line 734 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.cpp"
+#line 734 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -800,170 +800,170 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 17 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 18 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 18 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {yyline++;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 19 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {SAVE_TOKEN; return TINTEGER;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 20 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TRETURN);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 21 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TCONST);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 22 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TINT);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 24 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {SAVE_TOKEN; return TIDENTIFIER;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 26 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 26 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TSEMICOLOM);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 27 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 27 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TCOMMA);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 28 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 28 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TLPAREN);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 29 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 29 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TRPAREN);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 30 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 30 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TLMPAREN);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 31 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 31 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TRMPAREN);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 32 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 32 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TLBPAREN);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 33 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 33 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TRBPAREN);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 35 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 35 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TMINUS);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 36 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 36 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TNOT);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 37 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 37 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TWAVE);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 39 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 39 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TPLUS);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 40 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 40 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TDIV);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 41 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 41 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TMULTI);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 42 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 42 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TMOD);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 44 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 44 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TL);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 45 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 45 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TLE);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 46 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 46 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TG);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 47 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 47 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TGE);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 48 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 48 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TNE);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 49 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 49 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TE);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 50 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 50 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TLOGAND);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 51 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 51 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TLOGOR);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 53 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 53 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {return TOKEN(TASSIGN);}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 54 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 54 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 {yyterminate();}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 55 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 55 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 ECHO;
 	YY_BREAK
-#line 966 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.cpp"
+#line 966 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1978,6 +1978,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 55 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/token.l"
+#line 55 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/token.l"
 
 

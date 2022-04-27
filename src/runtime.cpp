@@ -1,5 +1,4 @@
-#include "../include/runtime.h"
-#include <cstdio>
+#include "runtime.h"
 std::unordered_map<std::string, VaribleInfo> VaribleTable;
 std::unordered_map<std::string, FunctionInfo> FunctionTable;
 int scope_offset;

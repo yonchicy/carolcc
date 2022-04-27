@@ -3,9 +3,7 @@
 #include <cstdio>
 #include <iostream>
 #include <cstring>
-#include "error.h"
 #include "node.h"
-#include "frontend/parser.h"
 
 extern int yyparse();
 extern int     yyrestart(FILE*);
@@ -15,7 +13,7 @@ extern NODE base_node;
 extern NODE base_ir;
 FILE *output;
 int main(int argc,char* argv[]){
-    // 处理input_fil
+    // 处理input_file
     if (argc<2) {
         yyparse();
         return 0;

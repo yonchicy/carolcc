@@ -67,10 +67,10 @@
 
 
 /* First part of user prologue.  */
-#line 1 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 1 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
 
-    #include "../../include/node.h"
-    #include "../../include/error.h"
+    #include "node.h"
+    #include "error.h"
     #include <vector>
     #include <typeinfo>
     extern NODE base_node;
@@ -80,7 +80,7 @@
     void insertVarible(std::string& type,std::string& id);
     void insertFunction(std::string& type,std::string& id);
 
-#line 84 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 84 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -1192,510 +1192,510 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* CompUnit: FuncDef  */
-#line 86 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 86 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {base_node.add_child((yyvsp[0].node));
         WARNNING("CompUnit->FuncDef ");}
-#line 1199 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1199 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 3: /* CompUnit: FuncDef CompUnit  */
-#line 89 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 89 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {base_node.add_child((yyvsp[-1].node));
         WARNNING("CompUnit->FuncDef ");}
-#line 1206 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1206 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 4: /* Decl: ConstDecl  */
-#line 95 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 95 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Decl);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("Decl->ConstDecl ");}
-#line 1214 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1214 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 5: /* Decl: VarDecl  */
-#line 99 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 99 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Decl);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("Decl->VarDecl ");}
-#line 1222 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1222 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 6: /* ConstDecl: "const" BType ConstDefList ";"  */
-#line 105 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 105 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(ConstDecl);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->add_child((yyvsp[-1].node));
         WARNNING("ConstDecl->const BType ConstDefList ");}
-#line 1231 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1231 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 7: /* ConstDefList: ConstDef  */
-#line 111 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 111 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(ConstDefList);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("ConstDefList->ConstDef ");}
-#line 1239 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1239 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 8: /* ConstDefList: ConstDef "," ConstDefList  */
-#line 115 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 115 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyvsp[0].node)->add_child((yyvsp[-2].node));
         (yyval.node) = (yyvsp[0].node);
         WARNNING("ConstDefList->ConstDef , ConstDefList ");}
-#line 1247 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1247 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 9: /* BType: "int"  */
-#line 120 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 120 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(BType);
         (yyval.node)->b_type = std::string("int");
         WARNNING("BType->int ");}
-#line 1255 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1255 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 10: /* ConstDef: TIDENTIFIER "=" ConstInitVal  */
-#line 125 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 125 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(ConstDef);
         (yyval.node)->LVal = *(yyvsp[-2].string);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("ConstDef->TIDENTIFIER = ConstInitVal ");}
-#line 1264 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1264 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 11: /* ConstInitVal: ConstExp  */
-#line 132 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 132 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(ConstInitVal);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("ConstInitVal->ConstExp ");}
-#line 1272 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1272 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 12: /* ConstExp: Exp  */
-#line 138 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 138 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Exp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("ConstExp->Exp ");}
-#line 1280 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1280 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 13: /* VarDecl: BType VarDefList ";"  */
-#line 144 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 144 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
        {(yyval.node) = base_node.new_node(VarDecl);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->add_child((yyvsp[-1].node));
         WARNNING("VarDecl->BType VarDefList ; ");}
-#line 1289 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1289 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 14: /* VarDefList: VarDef  */
-#line 151 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 151 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(VarDefList);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("VarDefList->VarDef ");}
-#line 1297 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1297 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 15: /* VarDefList: VarDef "," VarDefList  */
-#line 155 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 155 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyvsp[0].node)->add_child((yyvsp[-2].node));
         (yyval.node) = (yyvsp[0].node);
         WARNNING("VarDefList->VarDef , VarDefList ");}
-#line 1305 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1305 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 16: /* VarDef: TIDENTIFIER  */
-#line 161 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 161 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(VarDef);
         (yyval.node)->LVal = *(yyvsp[0].string);
         WARNNING("VarDef->TIDENTIFIER ");}
-#line 1313 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1313 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 17: /* VarDef: TIDENTIFIER "=" InitVal  */
-#line 165 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 165 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(VarDef);
         (yyval.node)->LVal = *(yyvsp[-2].string);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("VarDef->TIDENTIFIER = InitVal ");}
-#line 1322 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1322 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 18: /* InitVal: Exp  */
-#line 172 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 172 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(InitVal);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("InitVal->exp ");}
-#line 1330 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1330 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 19: /* FuncDef: FuncType TIDENTIFIER "(" ")" Block  */
-#line 179 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 179 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(FuncDef);
         (yyval.node)->add_child((yyvsp[-4].node));
         (yyval.node)->add_child((yyvsp[0].node));
         (yyval.node)->func_name = *(yyvsp[-3].string);
         WARNNING("FuncDef->ftype id () block ");}
-#line 1340 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1340 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 20: /* FuncType: "int"  */
-#line 187 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 187 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(FuncType);
         (yyval.node)->func_type = std::string("int");
         WARNNING("FuncType->int ");}
-#line 1348 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1348 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 21: /* Block: "{" BlockItemList "}"  */
-#line 194 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 194 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Block);
         (yyval.node)->add_child((yyvsp[-1].node));
         WARNNING("Block->{BlockItemList} ");}
-#line 1356 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1356 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 22: /* BlockItemList: BlockItem  */
-#line 200 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 200 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(BlockItemList);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("BlockItemList->BlockItem ");}
-#line 1364 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1364 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 23: /* BlockItemList: BlockItem BlockItemList  */
-#line 204 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 204 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyvsp[0].node)->add_child((yyvsp[-1].node));
         (yyval.node) = (yyvsp[0].node);
         WARNNING("BlockItemList->BlockItem BlockItemList");}
-#line 1372 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1372 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 24: /* BlockItem: Decl  */
-#line 210 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 210 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(BlockItem);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("BlockItem->Decl ");}
-#line 1380 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1380 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 25: /* BlockItem: Stmt  */
-#line 214 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 214 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(BlockItem);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("BlockItem->Stmt ");}
-#line 1388 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1388 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 26: /* Stmt: LVal "=" Exp ";"  */
-#line 220 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 220 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Stmt);
         (yyval.node)->add_child((yyvsp[-3].node));
         (yyval.node)->add_child((yyvsp[-1].node));
         WARNNING("Stmt->return exp ");}
-#line 1397 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1397 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 27: /* Stmt: ";"  */
-#line 225 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 225 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Stmt);
         WARNNING("丢弃 Stmt->; ");}
-#line 1404 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1404 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 28: /* Stmt: Exp ";"  */
-#line 228 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 228 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Stmt);
         WARNNING("丢弃 Stmt->Exp ; ");}
-#line 1411 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1411 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 29: /* Stmt: Block  */
-#line 231 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 231 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Stmt);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("Stmt->Block ");}
-#line 1419 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1419 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 30: /* Stmt: "return" ";"  */
-#line 235 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 235 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Stmt);
         WARNNING("Stmt->return; ");}
-#line 1426 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1426 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 31: /* Stmt: "return" Exp ";"  */
-#line 238 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 238 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Stmt);
         (yyval.node)->add_child((yyvsp[-1].node));
         WARNNING("Stmt->return exp ");}
-#line 1434 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1434 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 32: /* LVal: TIDENTIFIER  */
-#line 243 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 243 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(LVal);
         (yyval.node)->LVal = *(yyvsp[0].string);
         WARNNING("LVal->TIDENTIFIER ");}
-#line 1442 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1442 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 33: /* Number: TINTEGER  */
-#line 249 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 249 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Number);
         (yyval.node)->intv = atoi((yyvsp[0].string)->c_str());
         WARNNING("Number->integer ");}
-#line 1450 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1450 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 34: /* PrimaryExp: "(" Exp ")"  */
-#line 255 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 255 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(PrimaryExp);
         (yyval.node)->add_child((yyvsp[-1].node));
         WARNNING("PrimaryExp->(exp) ");}
-#line 1458 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1458 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 35: /* PrimaryExp: LVal  */
-#line 259 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 259 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(PrimaryExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("PrimaryExp->LVal ");}
-#line 1466 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1466 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 36: /* PrimaryExp: Number  */
-#line 263 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 263 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(PrimaryExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("PrimaryExp->(num) ");}
-#line 1474 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1474 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 37: /* Exp: LOrExp  */
-#line 269 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 269 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(Exp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("Exp->lorexp ");}
-#line 1482 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1482 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 38: /* UnaryExp: PrimaryExp  */
-#line 275 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 275 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(UnaryExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("UnaryExp->PrimaryExp ");}
-#line 1490 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1490 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 39: /* UnaryExp: "+" UnaryExp  */
-#line 279 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 279 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(UnaryExp);
         (yyval.node)->add_child((yyvsp[0].node));
         (yyval.node)->op = "+";
         WARNNING("UnaryExp-> + UnaryExp ");}
-#line 1499 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1499 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 40: /* UnaryExp: "-" UnaryExp  */
-#line 284 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 284 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(UnaryExp);
         (yyval.node)->add_child((yyvsp[0].node));
         (yyval.node)->op = "-";
         WARNNING("UnaryExp-> - UnaryExp ");}
-#line 1508 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1508 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 41: /* UnaryExp: "!" UnaryExp  */
-#line 289 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 289 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(UnaryExp);
         (yyval.node)->add_child((yyvsp[0].node));
         (yyval.node)->op = "!";
         WARNNING("UnaryExp-> ! UnaryExp ");}
-#line 1517 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1517 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 42: /* MulExp: UnaryExp  */
-#line 296 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 296 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(MulExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("MulExp->UnaryExp ");}
-#line 1525 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1525 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 43: /* MulExp: MulExp "*" UnaryExp  */
-#line 300 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 300 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(MulExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "*";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("MulExp->MulExp * UnaryExp ");}
-#line 1535 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1535 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 44: /* MulExp: MulExp "/" UnaryExp  */
-#line 306 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 306 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(MulExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "/";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("MulExp->MulExp / UnaryExp ");}
-#line 1545 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1545 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 45: /* MulExp: MulExp "%" UnaryExp  */
-#line 312 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 312 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(MulExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "%";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("MulExp->MulExp %% UnaryExp ");}
-#line 1555 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1555 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 46: /* AddExp: MulExp  */
-#line 320 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 320 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(AddExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("AddExp->MulExp ");}
-#line 1563 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1563 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 47: /* AddExp: AddExp "+" MulExp  */
-#line 324 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 324 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(AddExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "+";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("AddExp->AddExp + MulExp");}
-#line 1573 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1573 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 48: /* AddExp: AddExp "-" MulExp  */
-#line 330 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 330 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(AddExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "-";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("AddExp->AddExp - MulExp ");}
-#line 1583 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1583 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 49: /* RelExp: AddExp  */
-#line 338 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 338 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(RelExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("RelExp->AddExp ");}
-#line 1591 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1591 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 50: /* RelExp: RelExp "<" AddExp  */
-#line 342 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 342 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(RelExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "<";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("RelExp->RelExp < AddExp ");}
-#line 1601 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1601 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 51: /* RelExp: RelExp ">" AddExp  */
-#line 348 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 348 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(RelExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = ">";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("RelExp->RelExp > AddExp ");}
-#line 1611 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1611 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 52: /* RelExp: RelExp "<=" AddExp  */
-#line 354 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 354 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(RelExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "<=";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("RelExp->RelExp <= AddExp ");}
-#line 1621 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1621 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 53: /* RelExp: RelExp ">=" AddExp  */
-#line 360 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 360 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(RelExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = ">=";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("RelExp->RelExp >= AddExp ");}
-#line 1631 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1631 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 54: /* EqExp: RelExp  */
-#line 368 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 368 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(EqExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("EqExp->RelExp ");}
-#line 1639 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1639 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 55: /* EqExp: EqExp "==" RelExp  */
-#line 372 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 372 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(EqExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "==";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("EqExp->EqExp == RelExp ");}
-#line 1649 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1649 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 56: /* EqExp: EqExp "!=" RelExp  */
-#line 378 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 378 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(EqExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "!=";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("EqExp->EqExp != RelExp ");}
-#line 1659 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1659 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 57: /* LAndExp: EqExp  */
-#line 386 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 386 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(LAndExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("LAndExp->EqExp ");}
-#line 1667 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1667 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 58: /* LAndExp: LAndExp "&&" EqExp  */
-#line 390 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 390 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(LAndExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "&&";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("LAndExp->LAndExp && EqExp ");}
-#line 1677 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1677 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 59: /* LOrExp: LAndExp  */
-#line 398 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 398 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(LOrExp);
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("LOrExp->LAndExp ");}
-#line 1685 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1685 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
   case 60: /* LOrExp: LOrExp "||" LAndExp  */
-#line 402 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 402 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
         {(yyval.node) = base_node.new_node(LOrExp);
         (yyval.node)->add_child((yyvsp[-2].node));
         (yyval.node)->op = "||";
         (yyval.node)->add_child((yyvsp[0].node));
         WARNNING("LOrExp->LOrExp || LAndExp ");}
-#line 1695 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1695 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
     break;
 
 
-#line 1699 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.cpp"
+#line 1699 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.cpp"
 
       default: break;
     }
@@ -1888,7 +1888,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 408 "/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/src/frontend/parser.y"
+#line 408 "/home/yonchicy/compiler/wlkl-compiler/src/frontend/parser.y"
 
 void insertVarible(std::string& type,std::string& id){
     VaribleTable.insert(std::make_pair<std::string, VaribleInfo>(std::string(id),VaribleInfo(type)));

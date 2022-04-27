@@ -1,5 +1,2 @@
-
-SysY2koopaIR/build
-SysY2koopaIR/a.s
-SysY2koopaIR/show.s
-SysY2koopaIR/show.s
+build/
+.idea

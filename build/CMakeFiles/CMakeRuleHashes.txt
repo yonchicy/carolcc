@@ -1,3 +1,0 @@
-# Hashes of file build rules.
-eb5752b4fd8618de509c82f18b8bc4a6 ../src/frontend/parser.cpp
-4e9aea173753d8cec3d995cc3c9f883a ../src/frontend/token.cpp

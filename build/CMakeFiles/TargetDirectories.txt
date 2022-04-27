@@ -1,3 +1,0 @@
-/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/build/CMakeFiles/compiler.dir
-/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/build/CMakeFiles/edit_cache.dir
-/home/yonchicy/compiler/wlkl-compiler/SysY2koopaIR/build/CMakeFiles/rebuild_cache.dir
