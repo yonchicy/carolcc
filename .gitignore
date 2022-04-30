@@ -1,2 +1,6 @@
 build/
 .idea
+
+src/frontend/parser.cpp
+src/frontend/parser.h
+src/frontend/token.cpp
