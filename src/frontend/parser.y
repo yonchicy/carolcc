@@ -1,9 +1,12 @@
 %{
     #include "node.h"
+    #include "visitor/syntax_tree_builder.h"
     #include "error.h"
     #include <vector>
     #include <typeinfo>
     extern NODE base_node;
+    extern comp_unit *root;
+
     extern int yyline;
     extern int yylex();
     void yyerror(const char*s){printf("ERROR:Line:%d\n%s\n",yyline,s);}
@@ -238,7 +241,7 @@ Stmt
         {$$ = base_node.new_node(Stmt);
         $$->add_child($2);
         WARNNING("Stmt->return exp ");} ;
-LVal         
+LVal
     : TIDENTIFIER
         {$$ = base_node.new_node(LVal);
         $$->LVal = *$1;
