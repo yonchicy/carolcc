@@ -5,7 +5,7 @@
 #ifndef EASYCC_ERROR_H
 #define EASYCC_ERROR_H
 
-
+#include "stdio.h"
 
 
 #define __DEBUG 

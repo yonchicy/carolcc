@@ -1,7 +1,7 @@
 #ifndef _NODE_H_
 #define _NODE_H_
-#include "error.h"
 #include "runtime.h"
+#include "utils.h"
 #include <algorithm>
 #include <iostream>
 #include <utility>

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.16)
 
 PROJECT(compiler)
 
@@ -28,12 +28,14 @@ IF(FLEX_FOUND)
     )
 ENDIF()
 
-file(GLOB_RECURSE source_files "src/*.cpp")
-add_compile_options(-g -std=c++17 -O2)
+FILE(GLOB_RECURSE source_files "src/*.cpp")
+ADD_COMPILE_OPTIONS(-g -std=c++17 -O2)
 
-message("source is ${source_files}")
-include_directories(src)
+MESSAGE("source is ${source_files}")
+SET(INCLUDE_DIRECTORIES ./ )
+INCLUDE_DIRECTORIES(src/)
 
 
-add_executable(${PROJECT_NAME} ${source_files} ${BISONOUTPUT} ${FLEXOUTPUT})
+
+ADD_EXECUTABLE(${PROJECT_NAME} ${source_files} ${BISONOUTPUT} ${FLEXOUTPUT})
 
