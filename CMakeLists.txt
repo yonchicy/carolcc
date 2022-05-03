@@ -24,7 +24,7 @@ IF(FLEX_FOUND)
       COMMAND ${FLEX_EXECUTABLE}
               --outfile=${FLEXOUTPUT}
               ${CMAKE_SOURCE_DIR}/src/frontend/token.l
-      COMMENT "Generating scanner.cpp"
+      COMMENT "Generating token.cpp"
     )
 ENDIF()
 

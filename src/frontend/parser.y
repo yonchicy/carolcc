@@ -89,14 +89,14 @@ tree_l_or_exp          *l_or_exp;
 %type <tree_comp_unit>        CompUnit
 %type <decl>             Decl
 %type <const_decl>       ConstDecl
-%type <b_type>           BType
+%type <basic_type>           BType
 %type <const_exp>        ConstExp
 %type <const_def>        ConstDef
 %type <const_def_list>   ConstDefList
 %type <const_init_val>   ConstInitVal
 %type <var_decl>         VarDecl
 %type <var_def>          VarDef
-%type <var_defList>      VarDefList
+%type <var_def_list>      VarDefList
 %type <init_val>         InitVal
 %type <func_def>         FuncDef
 %type <func_type>        FuncType
@@ -191,7 +191,7 @@ VarDefList
     : VarDef
         {$$ = new tree_var_def_list(); 
         $$->var_defs.push_back(std::shared_ptr<tree_var_def>($1));
-        };
+        }
     |  VarDefList "," VarDef
         {$1->var_defs.push_back(std::shared_ptr<tree_var_def>($3));
         $$ = $1;
@@ -201,7 +201,7 @@ VarDef
     : TIDENTIFIER 
         {$$ = new tree_var_def();
         $$->id=*$1;
-        };
+        }
     | TIDENTIFIER "=" InitVal
         {$$ = new tree_var_def();
         $$->id=*$1;
@@ -220,7 +220,7 @@ FuncDef
         {$$ = new tree_func_def();
         $$->type=type_helper::INT;
         $$->id=*$2;
-        $$->block.push_back(std::shared_ptr<tree_block>($2));
+        $$->block.push_back(std::shared_ptr<tree_block>($5));
         }
     ;
 FuncType

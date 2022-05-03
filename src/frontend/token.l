@@ -4,8 +4,8 @@
 #include <string>
 #include <iostream>
 #include "node.h"
+#include "syntax_tree.h"
 #include "parser.h"
-#include "../syntax_tree.h"
 extern int yyline;
 
 #define SAVE_TOKEN yylval.string = new std::string(yytext,yyleng)

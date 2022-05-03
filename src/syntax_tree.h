@@ -111,7 +111,6 @@ public:
 };
 class tree_var_def_list : public syntax_tree_node {
 public:
-    tree_var_def_list(int list);
     void accept(visitor_base &v) final;
 
     std::list<std::shared_ptr<tree_var_def>> var_defs;
