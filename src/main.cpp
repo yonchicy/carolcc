@@ -12,9 +12,8 @@ extern FILE *yyin;
 int yyline;
 extern NODE base_node;
 extern NODE base_ir;
-
+tree_comp_unit *root;
 //std::shared_ptr<tree_comp_unit> root(new tree_comp_unit());
-tree_comp_unit *root = new tree_comp_unit();
 
 FILE *output;
 int main(int argc, char *argv[]) {
@@ -46,6 +45,7 @@ int main(int argc, char *argv[]) {
     }
     if (!yyin)
         perror(input_file);
+    auto *root = new tree_comp_unit();
     yyparse();
     std::cout << std::endl;
     show_ast(&base_node, 0);

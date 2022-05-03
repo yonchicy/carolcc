@@ -43,9 +43,6 @@ void tree_init_val::accept(visitor_base &v) {
 void tree_decl::accept(visitor_base &v) {
     v.visit(*this);
 }
-tree_decl::tree_decl(const std::shared_ptr<tree_const_decl> &const_decl,
-                     const std::shared_ptr<tree_var_decl> &var_decl) :
-                   const_decl(const_decl), var_decl(var_decl) {}
 void tree_const_def::accept(visitor_base &v) {
     v.visit(*this);
 }

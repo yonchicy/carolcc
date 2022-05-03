@@ -4,9 +4,10 @@
 
 #ifndef CAROLCC_SYNTAX_TREE_H
 #define CAROLCC_SYNTAX_TREE_H
-#include "helpers/type_helpers.h"
+#include "helpers/type_helper.h"
 #include <list>
 #include <memory>
+#include <string>
 
 
 class visitor_base;
@@ -58,8 +59,6 @@ public:
 
 class tree_decl : public syntax_tree_node {
 public:
-    tree_decl(const std::shared_ptr<tree_const_decl> &const_decl,
-         const std::shared_ptr<tree_var_decl> &var_decl);
     void accept(visitor_base &v) final;
 
     std::shared_ptr<tree_const_decl> const_decl;
