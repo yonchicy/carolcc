@@ -1,6 +1,3 @@
-//
-// Created by yonchicy on 22-5-1.
-//
 
 #ifndef CAROLCC_SYNTAX_TREE_H
 #define CAROLCC_SYNTAX_TREE_H

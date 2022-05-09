@@ -1,6 +1,3 @@
-//
-// Created by yonchicy on 22-5-1.
-//
 
 #include "syntax_tree.h"
 #include "visitor/visitor_base.h"
