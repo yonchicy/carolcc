@@ -1,6 +1,3 @@
-//
-// Created by yonchicy on 2022/3/16.
-//
 
 #ifndef EASYCC_ERROR_H
 #define EASYCC_ERROR_H

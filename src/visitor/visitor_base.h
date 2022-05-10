@@ -1,6 +1,3 @@
-//
-// Created by yonchicy on 22-5-1.
-//
 
 #ifndef CAROLCC_VISITOR_BASE_H
 #define CAROLCC_VISITOR_BASE_H
