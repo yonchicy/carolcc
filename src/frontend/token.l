@@ -18,9 +18,18 @@ extern int yyline;
 [ \t] {}
 \n {yyline++;}
 [0-9]+  {SAVE_TOKEN; return TINTEGER;}
+
 "return" {return TOKEN(TRETURN);}
 "const" {return TOKEN(TCONST);}
 "int" {return TOKEN(TINT);}
+"float" {return TOKEN(TFLOAT);}
+"void" {return TOKEN(TVOID);}
+
+"break" {return TOKEN(TBREAK)}
+"continue" {return TOKEN(TCONTINUE)}
+"if"    {return TOKEN(TIF)}
+"else"  {rerturn TOKEN(TELSE)}
+"while" {return TOKEN(TWHILE)}
 
 [a-zA-Z_][a-zA-Z0-9_]* {SAVE_TOKEN; return TIDENTIFIER;}
 

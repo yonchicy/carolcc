@@ -6,6 +6,8 @@
 #define COMPILER_TYPE_HELPER_H
 
 enum  class type_helper{
-    INT
+    INT,
+    FLOAT,
+    VOID
 };
 #endif//COMPILER_TYPE_HELPER_H
