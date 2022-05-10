@@ -161,7 +161,7 @@ class tree_func_def : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
 
-    type_helper type;
+    std::shared_ptr<tree_func_type> type;
     std::string id;
     std::shared_ptr<tree_func_fparams> funcfparams;
     std::list<std::shared_ptr<tree_block>> block;
@@ -179,6 +179,31 @@ public:
     void accept(visitor_base &v) final;
 
     std::list<std::shared_ptr<tree_func_fparam>> funcfparamlist;
+};
+
+class tree_func_fparam : public syntax_tree_node {
+public:
+    void accept(visitor_base &v) final;
+
+    std::shared_ptr<tree_func_fparamone> funcfparamone;
+    std::shared_ptr<tree_func_fparamarray> funcfparamarray;
+};
+
+class tree_func_fparamone : public syntax_tree_node {
+public:
+    void accept(visitor_base &v) final;
+
+    std::shared_ptr<tree_basic_type> b_type;
+    std::string id;
+};
+
+class tree_func_fparamarray : public syntax_tree_node {
+public:
+    void accept(visitor_base &v) final;
+
+    std::shared_ptr<tree_basic_type> b_type;
+    std::string id;
+    std::list<std::shared_ptr<tree_exp>> exps;
 };
 
 class tree_block : public syntax_tree_node {

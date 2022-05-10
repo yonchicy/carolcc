@@ -289,15 +289,15 @@ FuncDef
     : FuncType TIDENTIFIER "("")" Block
         {
             $$ = new tree_func_def();
-            $$->type=$1;
-            $$->id=*$2;
+            $$->type = std::shared_ptr<tree_func_type>($1);
+            $$->id = *$2;
             $$->block.push_back(std::shared_ptr<tree_block>($5));
         }
     | FuncType TIDENTIFIER "(" FuncFParams ")" Block
         {
             $$ = new tree_func_def();
-            $$->type=$1;
-            $$->id=*$2;
+            $$->type = std::shared_ptr<tree_func_type>($1);
+            $$->id = *$2;
             $$->funcfparams = std::shared_ptr<tree_func_fparams>($4);
 
             $$->block.push_back(std::shared_ptr<tree_block>($6));
@@ -330,7 +330,7 @@ FuncFParams
         }
     | FuncFParams TCOMMA FuncFParam
         {
-            $1->funcfparamlist.push_back(std::shared_ptr<tree_func_fparam>($2));
+            $1->funcfparamlist.push_back(std::shared_ptr<tree_func_fparam>($3));
             $$ = $1;
         }
     ;
@@ -339,12 +339,12 @@ FuncFParam
     : FuncFParamOne
         {
             $$ = new tree_func_fparam();
-            $$->funcfparamone = $1;
+            $$->funcfparamone = std::shared_ptr<tree_func_fparamone>($1);
         }
     | FuncFParamArray
         {
             $$ = new tree_func_fparam();
-            $$->funcfparamarray = $1;
+            $$->funcfparamarray = std::shared_ptr<tree_func_fparamarray>($1);
         }
     ;
 
@@ -366,7 +366,7 @@ FuncFParamArray
         }
     | FuncFParamArray "[" Exp "]"
         {
-            $1->exp = std::shared_ptr<tree_exp>($3);
+            $1->exps.push_back(std::shared_ptr<tree_exp>($3));
             $$ = $1;
         }
     ;
@@ -539,10 +539,6 @@ Number
         {
             $$ = new tree_number();
             $$->int_value = atoi($1->c_str());
-        }
-    | TFLOAT
-        {
-            $$ = new tree_number();
             $$->float_value = (float)atof($1->c_str());
         }
     ;
