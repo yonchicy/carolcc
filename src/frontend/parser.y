@@ -495,7 +495,7 @@ Exp
     : AddExp
         {
             $$ = new tree_exp();
-            $$->add_exp = std::shared_ptr<tree_tree_add_exp>($1);
+            $$->add_exp = std::shared_ptr<tree_add_exp>($1);
         }
     ;
 
