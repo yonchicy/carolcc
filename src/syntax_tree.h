@@ -15,6 +15,7 @@ class tree_const_decl;
 class tree_basic_type;
 class tree_const_def_list;
 class tree_const_init_val;
+class tree_const_exp_list;
 class tree_const_exp;
 class tree_var_decl;
 class tree_exp;
@@ -101,12 +102,26 @@ public:
 
     std::string id;
     std::shared_ptr<tree_const_init_val> const_init_val;
+    std::shared_ptr<tree_const_exp_list> const_exp_list;
+};
+class tree_const_exp_list : public syntax_tree_node {
+public:
+    void accept(visitor_base &v) final;
+
+    std::list<std::shared_ptr<tree_const_exp>> const_exp;
 };
 class tree_const_init_val : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
 
+    std::shared_ptr<tree_const_val_list> const_exp_list;
     std::shared_ptr<tree_const_exp> const_exp;
+};
+class tree_const_val_list : public syntax_tree_node {
+public:
+    void accept(visitor_base &v) final;
+
+    std::list<std::shared_ptr<tree_const_exp>> const_exp;
 };
 class tree_const_exp : public syntax_tree_node {
 public:
@@ -160,7 +175,6 @@ public:
 class tree_func_def : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
-
     std::shared_ptr<tree_func_type> type;
     std::string id;
     std::shared_ptr<tree_func_fparams> funcfparams;

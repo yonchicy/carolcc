@@ -27,6 +27,8 @@ tree_const_decl        *const_decl;
 tree_basic_type        *basic_type;
 tree_const_def_list    *const_def_list;
 tree_const_init_val    *const_init_val;
+tree_const_val_list    *const_init_val_list;
+tree_const_exp_list    *const_exp_list;
 tree_const_exp         *const_exp;
 tree_var_decl          *var_decl;
 tree_exp               *exp;
@@ -72,7 +74,7 @@ tree_l_or_exp          *l_or_exp;
 
 %token <string>        TIDENTIFIER TINTEGER
 %token TSEMICOLOM ";"
-%token TCOMMA ","
+%token TCOMMA   ","
 %token TMAIN    "main"
 %token TINT     "int"
 %token TFLOAT   "float"
@@ -115,7 +117,9 @@ tree_l_or_exp          *l_or_exp;
 %type <const_exp>        ConstExp
 %type <const_def>        ConstDef
 %type <const_def_list>   ConstDefList
+%type <const_exp_list>   ConstExpArrayList
 %type <const_init_val>   ConstInitVal
+%type <const_init_val_list>   ConstInitVallist
 %type <var_decl>         VarDecl
 %type <var_def>          VarDef
 %type <var_def_list>     VarDefList
@@ -151,95 +155,177 @@ tree_l_or_exp          *l_or_exp;
 
 %start CompUnit
 %%
+//jyx
 CompUnit
     : FuncDef
         {
-		root->functions.push_back(std::shared_ptr<tree_func_def>($1));
+		    root->functions.push_back(std::shared_ptr<tree_func_def>($1));
         }
     | CompUnit FuncDef
         {
-		root->functions.push_back(std::shared_ptr<tree_func_def>($2));
+		    root->functions.push_back(std::shared_ptr<tree_func_def>($2));
+        }
+    | Decl
+        {
+            root->functions.push_back(std::shared_ptr<tree_decl>($1));
+        }
+    | CompUnit Decl
+        {
+            root->functions.push_back(std::shared_ptr<tree_decl>($2));
         }
     ;
 
 Decl
-    : ConstDecl {
-        $$ = new tree_decl();
-        $$->const_decl=std::shared_ptr<tree_const_decl>($1);
+    : ConstDecl 
+        {
+            $$ = new tree_decl();
+            $$->const_decl=std::shared_ptr<tree_const_decl>($1);
         }
-    | VarDecl {
-        $$ = new tree_decl();
-        $$->var_decl=std::shared_ptr<tree_var_decl>($1);
+    | VarDecl 
+        {
+            $$ = new tree_decl();
+            $$->var_decl=std::shared_ptr<tree_var_decl>($1);
         }
     ;
+
 ConstDecl
-    : "const" BType ConstDefList ";" {
-        $$ = new tree_const_decl();
-        $$->b_type=std::shared_ptr<tree_basic_type>($2);
-        $$->const_def_list=std::shared_ptr<tree_const_def_list>($3);
+    : "const" BType ConstDefList ";" 
+        {
+            $$ = new tree_const_decl();
+            $$->b_type=std::shared_ptr<tree_basic_type>($2);
+            $$->const_def_list=std::shared_ptr<tree_const_def_list>($3);
         }
-        ;
+    ;
+
 ConstDefList
     : ConstDef
-        {$$ = new tree_const_def_list();
-        $$->const_defs.push_back(std::shared_ptr<tree_const_def>($1));
+        {
+            $$ = new tree_const_def_list();
+            $$->const_defs.push_back(std::shared_ptr<tree_const_def>($1));
         }
-    |   ConstDefList "," ConstDef
-        {$1->const_defs.push_back(std::shared_ptr<tree_const_def>($3));
-        $$ = $1;
-        };
+    | ConstDefList "," ConstDef
+        {
+            $1->const_defs.push_back(std::shared_ptr<tree_const_def>($3));
+            $$ = $1;
+        }
+    ;
+
 BType
     : "int"
-        {$$ = new tree_basic_type();
-        $$->type=type_helper::INT;
-        };
+        {
+            $$ = new tree_basic_type();
+            $$->type=type_helper::INT;
+        }
+    | "float"
+        {
+            $$ = new tree_basic_type();
+            $$->type=type_helper::FLOAT;
+        }
+    ;
+
 ConstDef
-    : TIDENTIFIER "=" ConstInitVal
-        {$$ = new tree_const_def();
-        $$->id=*$1;
-        $$->const_init_val=std::shared_ptr<tree_const_init_val>($3);
-        };
+    : TIDENTIFIER ConstExpArrayList "=" ConstInitVal
+        {
+            $$ = new tree_const_def();
+            $$->id=*$1;
+            $$->const_exp_list=std::shared_ptr<tree_const_exp_list>($2);
+            $$->const_init_val=std::shared_ptr<tree_const_init_val>($4);
+        }
+    | TIDENTIFIER "=" ConstInitVal
+        {
+            $$ = new tree_const_def();
+            $$->id=*$1;
+            $$->const_init_val=std::shared_ptr<tree_const_init_val>($3);
+        }
+    ;
+
+ConstExpArrayList
+    : "[" ConstExp "]"
+        {
+            $$ = new tree_const_exp_list();
+            $$->const_exp.push_back(std::shared_ptr<tree_const_exp>($2));
+        }
+    | ConstExpArrayList "[" ConstExp "]"
+        {
+            $1->const_exp.push_back(std::shared_ptr<tree_const_exp>($3));
+            $$ = $1;
+        }
+    ;
 
 ConstInitVal
     : ConstExp
-        {$$ = new tree_const_init_val();
-    $$->const_exp= std::shared_ptr<tree_const_exp>($1) ;
-        };
+        {
+            $$ = new tree_const_init_val();
+            $$->const_exp= std::shared_ptr<tree_const_exp>($1) ;
+        }
+    | "{" ConstInitVallist "}"
+        {
+            $$ = new tree_const_init_val();
+            $$->const_exp_list= std::shared_ptr<tree_const_val_list>($2) ;
+        }
+    | "{"  "}"
+        {
+            $$ = new tree_const_init_val();
+        }
+    ;
+
+ConstInitVallist
+    : ConstInitVal
+        {
+            $$ = new tree_const_exp_list();
+            $$->const_exp.push_back(std::shared_ptr<tree_const_exp>($1));
+        }
+    | ConstInitVallist "," ConstInitVal
+        {
+            $1->const_exp.push_back(std::shared_ptr<tree_const_exp>($3));
+            $$ = $1;
+        }
+    ;
 
 ConstExp
-    : Exp
-        {$$ =new tree_const_exp();
-    $$->exp=std::shared_ptr<tree_exp>($1) ;
-        };
+    : AddExp
+        {
+            $$ = new tree_exp();
+            $$->add_exp = std::shared_ptr<tree_add_exp>($1);
+        }
+    ;
 
 VarDecl
     : BType VarDefList ";"
-       {$$ = new tree_var_decl();
-        $$->b_type=std::shared_ptr<tree_basic_type>($1);
-        $$->var_def_list=std::shared_ptr<tree_var_def_list>($2);
-        };
+        {    
+            $$ = new tree_var_decl();
+            $$->b_type=std::shared_ptr<tree_basic_type>($1);
+            $$->var_def_list=std::shared_ptr<tree_var_def_list>($2);
+        }
+    ;
 
 VarDefList
     : VarDef
-        {$$ = new tree_var_def_list();
-        $$->var_defs.push_back(std::shared_ptr<tree_var_def>($1));
+        {
+            $$ = new tree_var_def_list();
+            $$->var_defs.push_back(std::shared_ptr<tree_var_def>($1));
         }
     |  VarDefList "," VarDef
-        {$1->var_defs.push_back(std::shared_ptr<tree_var_def>($3));
-        $$ = $1;
-        };
+        {
+            $1->var_defs.push_back(std::shared_ptr<tree_var_def>($3));
+            $$ = $1;
+        }
+    ;
 
 VarDef
     : TIDENTIFIER
-        {$$ = new tree_var_def();
-        $$->id=*$1;
+        {
+            $$ = new tree_var_def();
+            $$->id=*$1;
         }
     | TIDENTIFIER "=" InitVal
-        {$$ = new tree_var_def();
-        $$->id=*$1;
-        $$->init_val=std::shared_ptr<tree_init_val>($3);
-        };
-
+        {
+            $$ = new tree_var_def();
+            $$->id=*$1;
+            $$->init_val=std::shared_ptr<tree_init_val>($3);
+        }
+    ;
+/* wq */
 InitVal
     : Exp
         {
@@ -253,7 +339,7 @@ InitValArray
         {
             $$ = new tree_init_val_array();
         }
-    | TLBPAREN InitValArrayList TRBPAREN
+    | "{" InitValArrayList "}"
         {
             $$ = new tree_init_val_array();
             $$->init_val_arraylist = std::shared_ptr<tree_init_val_arraylist>($2)
@@ -267,7 +353,7 @@ InitValArrayList
             $$ = new tree_init_val_array();
             $$->initvalarrays.push_back(std::shared_ptr<tree_init_val_array>($1));
         }
-    | InitValArrayList TCOMMA InitValArray
+    | InitValArrayList "," InitValArray
         {
             $1->initvalarrays.push_back(std::shared_ptr<tree_init_val_array>($3));
             $$ = $1;
@@ -277,7 +363,7 @@ InitValArrayList
             $$ = new tree_init_val_array();
             $$->initvals.push_back(std::shared_ptr<tree_init_val>($1));
         }
-    | InitValArrayList TCOMMA InitVal
+    | InitValArrayList "," InitVal
         {
             $1->initvals.push_back(std::shared_ptr<tree_init_val>($3));
             $$ = $1;
@@ -328,7 +414,7 @@ FuncFParams
             $$ = new tree_func_fparams();
             $$->funcfparamlist.push_back(std::shared_ptr<tree_func_fparam>($1));
         }
-    | FuncFParams TCOMMA FuncFParam
+    | FuncFParams "," FuncFParam
         {
             $1->funcfparamlist.push_back(std::shared_ptr<tree_func_fparam>($3));
             $$ = $1;
@@ -619,117 +705,138 @@ FuncRParamList
             $$ = $1;
         }
     ;
+/* jyx */
+
 
 MulExp
     : UnaryExp
-        {$$ = new tree_mul_exp();
-        $$->unary_exp=std::shared_ptr<tree_unary_exp>($1);
+        {
+            $$ = new tree_mul_exp();
+            $$->unary_exp=std::shared_ptr<tree_unary_exp>($1);
         }
     | MulExp "*" UnaryExp
-        {$$ = new tree_mul_exp();
-        $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
-        $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
-        $$->oprt="*";
+        {
+            $$ = new tree_mul_exp();
+            $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
+            $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
+            $$->oprt="*";
         }
     | MulExp "/" UnaryExp
-        {$$ = new tree_mul_exp();
-        $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
-        $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
-        $$->oprt="/";
+        {
+            $$ = new tree_mul_exp();
+            $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
+            $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
+            $$->oprt="/";
         }
     | MulExp "%" UnaryExp
-        {$$ = new tree_mul_exp();
-        $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
-        $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
-        $$->oprt="%";
+        {
+            $$ = new tree_mul_exp();
+            $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
+            $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
+            $$->oprt="%";
         }
     ;
 AddExp
     : MulExp
-        {$$ = new tree_add_exp();
-        $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
+        {
+            $$ = new tree_add_exp();
+            $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
         }
     | AddExp "+" MulExp
-        {$$ = new tree_add_exp();
-        $$->add_exp=std::shared_ptr<tree_add_exp>($1);
-        $$->oprt="+";
-        $$->mul_exp=std::shared_ptr<tree_mul_exp>($3);
+        {
+            $$ = new tree_add_exp();
+            $$->add_exp=std::shared_ptr<tree_add_exp>($1);
+            $$->oprt="+";
+            $$->mul_exp=std::shared_ptr<tree_mul_exp>($3);
         }
     | AddExp "-" MulExp
-        {$$ = new tree_add_exp();
-        $$->add_exp=std::shared_ptr<tree_add_exp>($1);
-        $$->oprt="-";
-        $$->mul_exp=std::shared_ptr<tree_mul_exp>($3);
+        {
+            $$ = new tree_add_exp();
+            $$->add_exp=std::shared_ptr<tree_add_exp>($1);
+            $$->oprt="-";
+            $$->mul_exp=std::shared_ptr<tree_mul_exp>($3);
         }
     ;
 RelExp
     : AddExp
-        {$$ = new tree_rel_exp();
-        $$->add_exp=std::shared_ptr<tree_add_exp>($1);
+        {
+            $$ = new tree_rel_exp();
+            $$->add_exp=std::shared_ptr<tree_add_exp>($1);
         }
     | RelExp "<" AddExp
-        {$$ = new tree_rel_exp();
-        $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
-        $$->oprt="<";
-        $$->add_exp=std::shared_ptr<tree_add_exp>($3);
+        {
+            $$ = new tree_rel_exp();
+            $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
+            $$->oprt="<";
+            $$->add_exp=std::shared_ptr<tree_add_exp>($3);
         }
     | RelExp ">" AddExp
-        {$$ = new tree_rel_exp();
-        $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
-        $$->oprt=">";
-        $$->add_exp=std::shared_ptr<tree_add_exp>($3);
+        {
+            $$ = new tree_rel_exp();
+            $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
+            $$->oprt=">";
+            $$->add_exp=std::shared_ptr<tree_add_exp>($3);
         }
     | RelExp "<=" AddExp
-        {$$ = new tree_rel_exp();
-        $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
-        $$->oprt="<=";
-        $$->add_exp=std::shared_ptr<tree_add_exp>($3);
+        {
+            $$ = new tree_rel_exp();
+            $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
+            $$->oprt="<=";
+            $$->add_exp=std::shared_ptr<tree_add_exp>($3);
         }
     | RelExp ">=" AddExp
-        {$$ = new tree_rel_exp();
-        $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
-        $$->oprt=">=";
-        $$->add_exp=std::shared_ptr<tree_add_exp>($3);
+        {
+            $$ = new tree_rel_exp();
+            $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
+            $$->oprt=">=";
+            $$->add_exp=std::shared_ptr<tree_add_exp>($3);
         }
     ;
 EqExp
     : RelExp
-        {$$ = new tree_eq_exp();
-        $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
+        {
+            $$ = new tree_eq_exp();
+            $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
         }
     | EqExp "==" RelExp
-        {$$ = new tree_eq_exp();
-        $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
-        $$->oprt="==";
-        $$->rel_exp=std::shared_ptr<tree_rel_exp>($3);
+        {
+            $$ = new tree_eq_exp();
+            $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
+            $$->oprt="==";
+            $$->rel_exp=std::shared_ptr<tree_rel_exp>($3);
         }
     | EqExp "!=" RelExp
-        {$$ = new tree_eq_exp();
-        $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
-        $$->oprt="!=";
-        $$->rel_exp=std::shared_ptr<tree_rel_exp>($3);
+        {
+            $$ = new tree_eq_exp();
+            $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
+            $$->oprt="!=";
+            $$->rel_exp=std::shared_ptr<tree_rel_exp>($3);
         }
     ;
 LAndExp
     : EqExp
-        {$$ = new tree_l_and_exp();
-        $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
+        {
+            $$ = new tree_l_and_exp();
+            $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
         }
     | LAndExp "&&" EqExp
-        {$$ = new tree_l_and_exp();
-        $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($1);
-        $$->eq_exp=std::shared_ptr<tree_eq_exp>($3);
+        {
+            $$ = new tree_l_and_exp();
+            $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($1);
+            $$->eq_exp=std::shared_ptr<tree_eq_exp>($3);
         }
     ;
 LOrExp
     : LAndExp
-        {$$ = new tree_l_or_exp();
-        $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($1);
+        {
+            $$ = new tree_l_or_exp();
+            $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($1);
         }
     | LOrExp "||" LAndExp
-        {$$ = new tree_l_or_exp();
-        $$->l_or_exp=std::shared_ptr<tree_l_or_exp>($1);
-        $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($3);
+        {
+            $$ = new tree_l_or_exp();
+            $$->l_or_exp=std::shared_ptr<tree_l_or_exp>($1);
+            $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($3);
         }
     ;
 %%
