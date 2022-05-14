@@ -1,0 +1,3 @@
+/root/compiler/carolcc/build/CMakeFiles/rebuild_cache.dir
+/root/compiler/carolcc/build/CMakeFiles/compiler.dir
+/root/compiler/carolcc/build/CMakeFiles/edit_cache.dir

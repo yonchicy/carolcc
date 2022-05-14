@@ -1,0 +1,52 @@
+[
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/ast.cpp.o -c /root/compiler/carolcc/src/ast.cpp",
+  "file": "/root/compiler/carolcc/src/ast.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/helpers/type_helper.cpp.o -c /root/compiler/carolcc/src/helpers/type_helper.cpp",
+  "file": "/root/compiler/carolcc/src/helpers/type_helper.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/main.cpp.o -c /root/compiler/carolcc/src/main.cpp",
+  "file": "/root/compiler/carolcc/src/main.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/node.cpp.o -c /root/compiler/carolcc/src/node.cpp",
+  "file": "/root/compiler/carolcc/src/node.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/runtime.cpp.o -c /root/compiler/carolcc/src/runtime.cpp",
+  "file": "/root/compiler/carolcc/src/runtime.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/syntax_tree.cpp.o -c /root/compiler/carolcc/src/syntax_tree.cpp",
+  "file": "/root/compiler/carolcc/src/syntax_tree.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/visitor/syntax_tree_builder.cpp.o -c /root/compiler/carolcc/src/visitor/syntax_tree_builder.cpp",
+  "file": "/root/compiler/carolcc/src/visitor/syntax_tree_builder.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/visitor/visitor_base.cpp.o -c /root/compiler/carolcc/src/visitor/visitor_base.cpp",
+  "file": "/root/compiler/carolcc/src/visitor/visitor_base.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/frontend/parser.cpp.o -c /root/compiler/carolcc/src/frontend/parser.cpp",
+  "file": "/root/compiler/carolcc/src/frontend/parser.cpp"
+},
+{
+  "directory": "/root/compiler/carolcc/build",
+  "command": "/usr/bin/c++  -I/root/compiler/carolcc/src -g -g -std=c++17 -O2 -o CMakeFiles/compiler.dir/src/frontend/token.cpp.o -c /root/compiler/carolcc/src/frontend/token.cpp",
+  "file": "/root/compiler/carolcc/src/frontend/token.cpp"
+}
+]
