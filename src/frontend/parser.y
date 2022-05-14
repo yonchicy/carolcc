@@ -31,6 +31,7 @@ tree_const_val_list    *const_init_val_list;
 tree_const_exp_list    *const_exp_list;
 tree_const_exp         *const_exp;
 tree_var_decl          *var_decl;
+tree_arrray_def        *array_def;
 tree_exp               *exp;
 tree_init_val          *init_val;
 tree_init_val_array    *init_val_array;
@@ -123,6 +124,7 @@ tree_l_or_exp          *l_or_exp;
 %type <var_decl>         VarDecl
 %type <var_def>          VarDef
 %type <var_def_list>     VarDefList
+%type <array_def>        ArrayDef
 %type <init_val>         InitVal
 %type <init_val_array>   InitValArray
 %type <init_val_arraylist>InitValArrayList
@@ -167,21 +169,21 @@ CompUnit
         }
     | Decl
         {
-            root->functions.push_back(std::shared_ptr<tree_decl>($1));
+            root->definitions.push_back(std::shared_ptr<tree_decl>($1));
         }
     | CompUnit Decl
         {
-            root->functions.push_back(std::shared_ptr<tree_decl>($2));
+            root->definitions.push_back(std::shared_ptr<tree_decl>($2));
         }
     ;
 
 Decl
-    : ConstDecl 
+    : ConstDecl
         {
             $$ = new tree_decl();
             $$->const_decl=std::shared_ptr<tree_const_decl>($1);
         }
-    | VarDecl 
+    | VarDecl
         {
             $$ = new tree_decl();
             $$->var_decl=std::shared_ptr<tree_var_decl>($1);
@@ -189,7 +191,7 @@ Decl
     ;
 
 ConstDecl
-    : "const" BType ConstDefList ";" 
+    : "const" BType ConstDefList ";"
         {
             $$ = new tree_const_decl();
             $$->b_type=std::shared_ptr<tree_basic_type>($2);
@@ -258,26 +260,26 @@ ConstInitVal
             $$ = new tree_const_init_val();
             $$->const_exp= std::shared_ptr<tree_const_exp>($1) ;
         }
-    | "{" ConstInitVallist "}"
-        {
-            $$ = new tree_const_init_val();
-            $$->const_exp_list= std::shared_ptr<tree_const_val_list>($2) ;
-        }
     | "{"  "}"
         {
             $$ = new tree_const_init_val();
+        }
+    | "{" ConstInitVallist "}"
+        {
+            $$ = new tree_const_init_val();
+            $$->const_val_list = std::shared_ptr<tree_const_val_list>($2) ;
         }
     ;
 
 ConstInitVallist
     : ConstInitVal
         {
-            $$ = new tree_const_exp_list();
-            $$->const_exp.push_back(std::shared_ptr<tree_const_exp>($1));
+            $$ = new tree_const_val_list();
+            $$->const_init_vals.push_back(std::shared_ptr<tree_const_init_val>($1));
         }
     | ConstInitVallist "," ConstInitVal
         {
-            $1->const_exp.push_back(std::shared_ptr<tree_const_exp>($3));
+            $1->const_init_vals.push_back(std::shared_ptr<tree_const_init_val>($3));
             $$ = $1;
         }
     ;
@@ -285,14 +287,14 @@ ConstInitVallist
 ConstExp
     : AddExp
         {
-            $$ = new tree_exp();
+            $$ = new tree_const_exp();
             $$->add_exp = std::shared_ptr<tree_add_exp>($1);
         }
     ;
 
 VarDecl
     : BType VarDefList ";"
-        {    
+        {
             $$ = new tree_var_decl();
             $$->b_type=std::shared_ptr<tree_basic_type>($1);
             $$->var_def_list=std::shared_ptr<tree_var_def_list>($2);
@@ -316,15 +318,42 @@ VarDef
     : TIDENTIFIER
         {
             $$ = new tree_var_def();
-            $$->id=*$1;
+            $$->id = *$1;
         }
     | TIDENTIFIER "=" InitVal
         {
             $$ = new tree_var_def();
-            $$->id=*$1;
-            $$->init_val=std::shared_ptr<tree_init_val>($3);
+            $$->id = *$1;
+            $$->init_val = std::shared_ptr<tree_init_val>($3);
+        }
+    | TIDENTIFIER ArrayDef
+        {
+            $$ = new tree_var_def();
+            $$->id = *$1;
+            $$->array_def = std::shared_ptr<tree_arrray_def>($2);
+        }
+    | TIDENTIFIER ArrayDef "=" InitValArray
+        {
+            $$ = new tree_var_def();
+            $$->id = *$1;
+            $$->array_def = std::shared_ptr<tree_arrray_def>($2);
+            $$->init_val_array = std::shared_ptr<tree_init_val_array>($4);
         }
     ;
+
+ArrayDef
+    : "[" ConstExp "]"
+        {
+            $$ = new tree_arrray_def();
+            $$->const_exps.push_back(std::shared_ptr<tree_const_exp>($2));
+        }
+    | ArrayDef "[" ConstExp "]"
+        {
+            $$->const_exps.push_back(std::shared_ptr<tree_const_exp>($3));
+            $$ = $1;
+        }
+    ;
+
 /* wq */
 InitVal
     : Exp
@@ -342,7 +371,7 @@ InitValArray
     | "{" InitValArrayList "}"
         {
             $$ = new tree_init_val_array();
-            $$->init_val_arraylist = std::shared_ptr<tree_init_val_arraylist>($2)
+            $$->init_val_arraylist = std::shared_ptr<tree_init_val_arraylist>($2);
         }
     ;
 
@@ -350,7 +379,7 @@ InitValArray
 InitValArrayList
     : InitValArray
         {
-            $$ = new tree_init_val_array();
+            $$ = new tree_init_val_arraylist();
             $$->initvalarrays.push_back(std::shared_ptr<tree_init_val_array>($1));
         }
     | InitValArrayList "," InitValArray
@@ -360,7 +389,7 @@ InitValArrayList
         }
     | InitVal
         {
-            $$ = new tree_init_val_array();
+            $$ = new tree_init_val_arraylist();
             $$->initvals.push_back(std::shared_ptr<tree_init_val>($1));
         }
     | InitValArrayList "," InitVal

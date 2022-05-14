@@ -25,10 +25,16 @@ void tree_const_def_list::accept(visitor_base &v) {
 void tree_const_init_val::accept(visitor_base &v) {
         v.visit(*this);
 }
+void tree_const_val_list::accept(visitor_base &v) {
+        v.visit(*this);
+}
 void tree_const_exp::accept(visitor_base &v) {
         v.visit(*this);
 }
 void tree_var_decl::accept(visitor_base &v) {
+        v.visit(*this);
+}
+void tree_arrray_def::accept(visitor_base &v) {
         v.visit(*this);
 }
 void tree_exp::accept(visitor_base &v) {
@@ -59,6 +65,9 @@ void tree_decl::accept(visitor_base &v) {
         v.visit(*this);
 }
 void tree_const_def::accept(visitor_base &v) {
+        v.visit(*this);
+}
+void tree_const_exp_list::accept(visitor_base &v) {
         v.visit(*this);
 }
 void tree_var_def_list::accept(visitor_base &v) {

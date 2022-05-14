@@ -15,9 +15,11 @@ class tree_const_decl;
 class tree_basic_type;
 class tree_const_def_list;
 class tree_const_init_val;
+class tree_const_val_list;
 class tree_const_exp_list;
 class tree_const_exp;
 class tree_var_decl;
+class tree_arrray_def;
 class tree_exp;
 class tree_init_val;
 class tree_init_val_array;
@@ -68,6 +70,7 @@ public:
     void accept(visitor_base &v) final;
 
     std::list<std::shared_ptr<tree_func_def>> functions;
+    std::list<std::shared_ptr<tree_decl>> definitions;
 };
 
 class tree_decl : public syntax_tree_node {
@@ -114,20 +117,22 @@ class tree_const_init_val : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
 
-    std::shared_ptr<tree_const_val_list> const_exp_list;
+    std::shared_ptr<tree_const_val_list> const_val_list;
     std::shared_ptr<tree_const_exp> const_exp;
 };
+
 class tree_const_val_list : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
 
-    std::list<std::shared_ptr<tree_const_exp>> const_exp;
+    std::list<std::shared_ptr<tree_const_init_val>> const_init_vals;
 };
+
 class tree_const_exp : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
 
-    std::shared_ptr<tree_exp> exp;
+    std::shared_ptr<tree_add_exp> add_exp;
 };
 class tree_var_decl : public syntax_tree_node {
 public:
@@ -136,18 +141,29 @@ public:
     std::shared_ptr<tree_basic_type> b_type;
     std::shared_ptr<tree_var_def_list> var_def_list;
 };
+
 class tree_var_def_list : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
 
     std::list<std::shared_ptr<tree_var_def>> var_defs;
 };
+
 class tree_var_def : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
 
     std::string id;
     std::shared_ptr<tree_init_val> init_val;
+    std::shared_ptr<tree_init_val_array> init_val_array;
+    std::shared_ptr<tree_arrray_def> array_def;
+};
+
+class tree_arrray_def : public syntax_tree_node {
+public:
+    void accept(visitor_base &v) final;
+
+    std::list<std::shared_ptr<tree_const_exp>> const_exps;
 };
 
 class tree_init_val : public syntax_tree_node {
