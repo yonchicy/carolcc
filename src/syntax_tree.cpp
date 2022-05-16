@@ -76,9 +76,6 @@ void tree_var_def_list::accept(visitor_base &v) {
 void tree_var_def::accept(visitor_base &v) {
         v.visit(*this);
 }
-void tree_func_type::accept(visitor_base &v) {
-        v.visit(*this);
-}
 void tree_block_item_list::accept(visitor_base &v) {
         v.visit(*this);
 }

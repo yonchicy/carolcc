@@ -1,13 +1,12 @@
 //
 // Created by Administrator on 2022/5/1.
 //
-#ifndef COMPILER_SYNTAX_TREE_BUILDER_H
-#define COMPILER_SYNTAX_TREE_BUILDER_H
+#ifndef COMPILER_SYNTAX_TREE_SHOWER_H
+#define COMPILER_SYNTAX_TREE_SHOWER_H
 #include "visitor_base.h"
 #include "helpers/type_helper.h"
 
-
-class syntax_tree_builder : public visitor_base {
+class syntax_tree_shower : public visitor_base {
 public:
     void visit(syntax_tree_node &node) final;
     void visit(tree_comp_unit &node) final;

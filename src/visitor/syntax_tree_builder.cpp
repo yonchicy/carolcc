@@ -6,7 +6,8 @@
 #include <stdlib.h>
 void syntax_tree_builder::visit(syntax_tree_node &node) {
     ERROR("visiting syntax tree node!! ");
-    std::exit(1);
+    
+    exit(1);
 }
 void syntax_tree_builder::visit(tree_comp_unit &node) {
 }
@@ -29,7 +30,6 @@ void syntax_tree_builder::visit(tree_decl &node) {}
 void syntax_tree_builder::visit(tree_const_def &node) {}
 void syntax_tree_builder::visit(tree_var_def_list &node) {}
 void syntax_tree_builder::visit(tree_var_def &node) {}
-void syntax_tree_builder::visit(tree_func_type &node) {}
 void syntax_tree_builder::visit(tree_block_item_list &node) {}
 void syntax_tree_builder::visit(tree_block_item &node) {}
 void syntax_tree_builder::visit(tree_stmt &node) {}

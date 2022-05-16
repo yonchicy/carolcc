@@ -3,7 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include "node.h"
 #include "syntax_tree.h"
 #include "parser.h"
 extern int yyline;

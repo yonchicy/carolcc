@@ -21,7 +21,6 @@ public:
     virtual void visit(tree_const_def &node) = 0;
     virtual void visit(tree_var_def_list &node) = 0;
     virtual void visit(tree_var_def &node) = 0;
-    virtual void visit(tree_func_type &node) = 0;
     virtual void visit(tree_block_item_list &node) = 0;
     virtual void visit(tree_block_item &node) = 0;
     virtual void visit(tree_stmt &node) = 0;

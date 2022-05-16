@@ -1,6 +1,6 @@
-
-#include "node.h"
 #include "visitor/syntax_tree_builder.h"
+#include "visitor/syntax_tree_shower.h"
+#include "visitor/syntax_detail_shower.h"
 #include "visitor/visitor_base.h"
 #include <cstdio>
 #include <cstring>
@@ -10,8 +10,6 @@ extern int yyparse();
 extern int yyrestart(FILE *);
 extern FILE *yyin;
 int yyline;
-extern NODE base_node;
-extern NODE base_ir;
 tree_comp_unit *root;
 //std::shared_ptr<tree_comp_unit> root(new tree_comp_unit());
 
@@ -45,12 +43,10 @@ int main(int argc, char *argv[]) {
     }
     if (!yyin)
         perror(input_file);
-    auto *root = new tree_comp_unit();
     yyparse();
-    std::cout << std::endl;
-    show_ast(&base_node, 0);
-    ast_to_ir(&base_node, 0);
-    show_ir(&base_ir, 0);
-
+    syntax_tree_shower *md_shower = new syntax_tree_shower();
+    syntax_detail_shower *md_detail_shower = new syntax_detail_shower();
+    md_shower->visit(*root);
+    md_detail_shower->visit(*root);
     return 0;
 }

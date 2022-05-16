@@ -5,7 +5,7 @@
 #ifndef COMPILER_TYPE_HELPER_H
 #define COMPILER_TYPE_HELPER_H
 
-enum  class type_helper{
+enum class type_helper{
     INT,
     FLOAT,
     VOID

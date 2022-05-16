@@ -1,24 +1,35 @@
 %{
-    #include "node.h"
     #include "visitor/syntax_tree_builder.h"
     #include "helpers/type_helper.h"
     #include "syntax_tree.h"
+    #include "string.h"
     #include "error.h"
+    #include "runtime.h"
     #include <vector>
     #include <typeinfo>
-    extern NODE base_node;
     extern tree_comp_unit *root;
 
     extern int yyline;
     extern int yylex();
-    void yyerror(const char*s){printf("ERROR:Line:%d\n%s\n",yyline,s);}
+    void yyerror(char*s)
+    {
+        extern char *yytext;	// defined and maintained in lex
+        int len=strlen(yytext);
+        int i;
+        char buf[512]={0};
+        for (i=0;i<len;++i)
+        {
+            sprintf(buf,"%s%d ",buf,yytext[i]);
+        }
+        fprintf(stderr, "ERROR: text %s\n",yytext);
+        fprintf(stderr, "ERROR: %s at symbol '%s' on line %d\n", s, buf, yyline);
+    }
     void insertVarible(std::string& type,std::string& id);
     void insertFunction(std::string& type,std::string& id);
 %}
 
 %union{
 std::string            *string;
-NODE                   *node;
 int                    token;
 tree_comp_unit         *comp_unit;
 tree_func_def          *func_def;
@@ -44,7 +55,6 @@ tree_decl              *decl;
 tree_const_def         *const_def;
 tree_var_def_list      *var_def_list;
 tree_var_def           *var_def;
-tree_func_type         *func_type;
 tree_block_item_list   *block_item_list;
 tree_block_item        *block_item;
 tree_stmt              *stmt;
@@ -133,7 +143,6 @@ tree_l_or_exp          *l_or_exp;
 %type<func_fparam>       FuncFParam
 %type<func_fparamone>    FuncFParamOne
 %type<func_fparamarray>  FuncFParamArray
-%type <func_type>        FuncType
 %type <block>            Block
 %type <block_item>       BlockItem
 %type <block_item_list>  BlockItemList
@@ -156,23 +165,30 @@ tree_l_or_exp          *l_or_exp;
 
 
 %start CompUnit
+%expect 1
 %%
 //jyx
 CompUnit
     : FuncDef
         {
+            root = new tree_comp_unit();
+		    printf("CompUnit\n");
 		    root->functions.push_back(std::shared_ptr<tree_func_def>($1));
         }
     | CompUnit FuncDef
         {
+		    printf("CompUnit\n");
 		    root->functions.push_back(std::shared_ptr<tree_func_def>($2));
         }
     | Decl
         {
+            root = new tree_comp_unit();
+		    printf("CompUnit\n");
             root->definitions.push_back(std::shared_ptr<tree_decl>($1));
         }
     | CompUnit Decl
         {
+		    printf("CompUnit\n");
             root->definitions.push_back(std::shared_ptr<tree_decl>($2));
         }
     ;
@@ -180,11 +196,13 @@ CompUnit
 Decl
     : ConstDecl
         {
+		    printf("Decl\n");
             $$ = new tree_decl();
             $$->const_decl=std::shared_ptr<tree_const_decl>($1);
         }
     | VarDecl
         {
+		    printf("Decl\n");
             $$ = new tree_decl();
             $$->var_decl=std::shared_ptr<tree_var_decl>($1);
         }
@@ -193,6 +211,7 @@ Decl
 ConstDecl
     : "const" BType ConstDefList ";"
         {
+		    printf("ConstDecl\n");
             $$ = new tree_const_decl();
             $$->b_type=std::shared_ptr<tree_basic_type>($2);
             $$->const_def_list=std::shared_ptr<tree_const_def_list>($3);
@@ -202,11 +221,13 @@ ConstDecl
 ConstDefList
     : ConstDef
         {
+		    printf("ConstDefList\n");
             $$ = new tree_const_def_list();
             $$->const_defs.push_back(std::shared_ptr<tree_const_def>($1));
         }
     | ConstDefList "," ConstDef
         {
+		    printf("ConstDefList\n");
             $1->const_defs.push_back(std::shared_ptr<tree_const_def>($3));
             $$ = $1;
         }
@@ -215,19 +236,28 @@ ConstDefList
 BType
     : "int"
         {
+		    printf("BType\n");
             $$ = new tree_basic_type();
             $$->type=type_helper::INT;
-        }
+        };
     | "float"
         {
+		    printf("BType\n");
             $$ = new tree_basic_type();
             $$->type=type_helper::FLOAT;
+        }
+    | "void"
+        {
+		    printf("BType\n");
+            $$ = new tree_basic_type();
+            $$->type=type_helper::VOID;
         }
     ;
 
 ConstDef
     : TIDENTIFIER ConstExpArrayList "=" ConstInitVal
         {
+		    printf("ConstDef\n");
             $$ = new tree_const_def();
             $$->id=*$1;
             $$->const_exp_list=std::shared_ptr<tree_const_exp_list>($2);
@@ -235,6 +265,7 @@ ConstDef
         }
     | TIDENTIFIER "=" ConstInitVal
         {
+		    printf("ConstDef\n");
             $$ = new tree_const_def();
             $$->id=*$1;
             $$->const_init_val=std::shared_ptr<tree_const_init_val>($3);
@@ -244,11 +275,13 @@ ConstDef
 ConstExpArrayList
     : "[" ConstExp "]"
         {
+		    printf("ConstExpArrayList\n");
             $$ = new tree_const_exp_list();
             $$->const_exp.push_back(std::shared_ptr<tree_const_exp>($2));
         }
     | ConstExpArrayList "[" ConstExp "]"
         {
+		    printf("ConstExpArrayList\n");
             $1->const_exp.push_back(std::shared_ptr<tree_const_exp>($3));
             $$ = $1;
         }
@@ -257,15 +290,18 @@ ConstExpArrayList
 ConstInitVal
     : ConstExp
         {
+		    printf("ConstInitVal\n");
             $$ = new tree_const_init_val();
             $$->const_exp= std::shared_ptr<tree_const_exp>($1) ;
         }
     | "{"  "}"
         {
+		    printf("ConstInitVal\n");
             $$ = new tree_const_init_val();
         }
     | "{" ConstInitVallist "}"
         {
+		    printf("ConstInitVal\n");
             $$ = new tree_const_init_val();
             $$->const_val_list = std::shared_ptr<tree_const_val_list>($2) ;
         }
@@ -274,11 +310,13 @@ ConstInitVal
 ConstInitVallist
     : ConstInitVal
         {
+		    printf("ConstInitVallist\n");
             $$ = new tree_const_val_list();
             $$->const_init_vals.push_back(std::shared_ptr<tree_const_init_val>($1));
         }
     | ConstInitVallist "," ConstInitVal
         {
+		    printf("ConstInitVallist\n");
             $1->const_init_vals.push_back(std::shared_ptr<tree_const_init_val>($3));
             $$ = $1;
         }
@@ -287,6 +325,7 @@ ConstInitVallist
 ConstExp
     : AddExp
         {
+		    printf("ConstExp\n");
             $$ = new tree_const_exp();
             $$->add_exp = std::shared_ptr<tree_add_exp>($1);
         }
@@ -295,6 +334,7 @@ ConstExp
 VarDecl
     : BType VarDefList ";"
         {
+		    printf("VarDecl\n");
             $$ = new tree_var_decl();
             $$->b_type=std::shared_ptr<tree_basic_type>($1);
             $$->var_def_list=std::shared_ptr<tree_var_def_list>($2);
@@ -304,11 +344,13 @@ VarDecl
 VarDefList
     : VarDef
         {
+		    printf("VarDefList\n");
             $$ = new tree_var_def_list();
             $$->var_defs.push_back(std::shared_ptr<tree_var_def>($1));
         }
     |  VarDefList "," VarDef
         {
+		    printf("VarDefList\n");
             $1->var_defs.push_back(std::shared_ptr<tree_var_def>($3));
             $$ = $1;
         }
@@ -317,23 +359,27 @@ VarDefList
 VarDef
     : TIDENTIFIER
         {
+		    printf("VarDef\n");
             $$ = new tree_var_def();
             $$->id = *$1;
         }
     | TIDENTIFIER "=" InitVal
         {
+		    printf("VarDef\n");
             $$ = new tree_var_def();
             $$->id = *$1;
             $$->init_val = std::shared_ptr<tree_init_val>($3);
-        }
+        };
     | TIDENTIFIER ArrayDef
         {
+		    printf("VarDef\n");
             $$ = new tree_var_def();
             $$->id = *$1;
             $$->array_def = std::shared_ptr<tree_arrray_def>($2);
         }
     | TIDENTIFIER ArrayDef "=" InitValArray
         {
+		    printf("VarDef\n");
             $$ = new tree_var_def();
             $$->id = *$1;
             $$->array_def = std::shared_ptr<tree_arrray_def>($2);
@@ -344,11 +390,13 @@ VarDef
 ArrayDef
     : "[" ConstExp "]"
         {
+		    printf("ArrayDef\n");
             $$ = new tree_arrray_def();
             $$->const_exps.push_back(std::shared_ptr<tree_const_exp>($2));
         }
     | ArrayDef "[" ConstExp "]"
         {
+		    printf("ArrayDef\n");
             $$->const_exps.push_back(std::shared_ptr<tree_const_exp>($3));
             $$ = $1;
         }
@@ -358,6 +406,7 @@ ArrayDef
 InitVal
     : Exp
         {
+		    printf("InitVal\n");
             $$ = new tree_init_val();
             $$->exp=std::shared_ptr<tree_exp>($1);
         }
@@ -366,10 +415,12 @@ InitVal
 InitValArray
     : "{" "}"
         {
+		    printf("InitValArray\n");
             $$ = new tree_init_val_array();
         }
     | "{" InitValArrayList "}"
         {
+		    printf("InitValArray\n");
             $$ = new tree_init_val_array();
             $$->init_val_arraylist = std::shared_ptr<tree_init_val_arraylist>($2);
         }
@@ -379,21 +430,25 @@ InitValArray
 InitValArrayList
     : InitValArray
         {
+		    printf("InitValArrayList\n");
             $$ = new tree_init_val_arraylist();
             $$->initvalarrays.push_back(std::shared_ptr<tree_init_val_array>($1));
         }
     | InitValArrayList "," InitValArray
         {
+		    printf("InitValArrayList\n");
             $1->initvalarrays.push_back(std::shared_ptr<tree_init_val_array>($3));
             $$ = $1;
         }
     | InitVal
         {
+		    printf("InitValArrayList\n");
             $$ = new tree_init_val_arraylist();
             $$->initvals.push_back(std::shared_ptr<tree_init_val>($1));
         }
     | InitValArrayList "," InitVal
         {
+		    printf("InitValArrayList\n");
             $1->initvals.push_back(std::shared_ptr<tree_init_val>($3));
             $$ = $1;
         }
@@ -401,17 +456,19 @@ InitValArrayList
 
 /* 函数相关 */
 FuncDef
-    : FuncType TIDENTIFIER "("")" Block
+    : BType TIDENTIFIER "("")" Block
         {
+		    printf("FuncDef\n");
             $$ = new tree_func_def();
-            $$->type = std::shared_ptr<tree_func_type>($1);
+            $$->type = std::shared_ptr<tree_basic_type>($1);
             $$->id = *$2;
             $$->block.push_back(std::shared_ptr<tree_block>($5));
         }
-    | FuncType TIDENTIFIER "(" FuncFParams ")" Block
+    | BType TIDENTIFIER "(" FuncFParams ")" Block
         {
+		    printf("FuncDef\n");
             $$ = new tree_func_def();
-            $$->type = std::shared_ptr<tree_func_type>($1);
+            $$->type = std::shared_ptr<tree_basic_type>($1);
             $$->id = *$2;
             $$->funcfparams = std::shared_ptr<tree_func_fparams>($4);
 
@@ -419,32 +476,16 @@ FuncDef
         }
     ;
 
-FuncType
-    : "int"
-        {
-            $$ = new tree_func_type();
-            $$->type=type_helper::INT;
-        }
-    | "float"
-        {
-            $$ = new tree_func_type();
-            $$->type=type_helper::FLOAT;
-        }
-    | "void"
-        {
-            $$ = new tree_func_type();
-            $$->type=type_helper::VOID;
-        }
-    ;
-
 FuncFParams
     : FuncFParam
         {
+		    printf("FuncFParams\n");
             $$ = new tree_func_fparams();
             $$->funcfparamlist.push_back(std::shared_ptr<tree_func_fparam>($1));
         }
     | FuncFParams "," FuncFParam
         {
+		    printf("FuncFParams\n");
             $1->funcfparamlist.push_back(std::shared_ptr<tree_func_fparam>($3));
             $$ = $1;
         }
@@ -453,11 +494,13 @@ FuncFParams
 FuncFParam
     : FuncFParamOne
         {
+		    printf("FuncFParam\n");
             $$ = new tree_func_fparam();
             $$->funcfparamone = std::shared_ptr<tree_func_fparamone>($1);
         }
     | FuncFParamArray
         {
+		    printf("FuncFParam\n");
             $$ = new tree_func_fparam();
             $$->funcfparamarray = std::shared_ptr<tree_func_fparamarray>($1);
         }
@@ -466,6 +509,7 @@ FuncFParam
 FuncFParamOne
     : BType TIDENTIFIER
         {
+		    printf("FuncFParamOne\n");
             $$ = new tree_func_fparamone();
             $$->b_type = std::shared_ptr<tree_basic_type>($1);
             $$->id = *$2;
@@ -475,12 +519,14 @@ FuncFParamOne
 FuncFParamArray
     : BType TIDENTIFIER "[" "]"
         {
+		    printf("FuncFParamArray\n");
             $$ = new tree_func_fparamarray();
             $$->b_type = std::shared_ptr<tree_basic_type>($1);
             $$->id = *$2;
         }
     | FuncFParamArray "[" Exp "]"
         {
+		    printf("FuncFParamArray\n");
             $1->exps.push_back(std::shared_ptr<tree_exp>($3));
             $$ = $1;
         }
@@ -489,10 +535,12 @@ FuncFParamArray
 Block
     : "{" "}"
         {
+		    printf("Block\n");
             $$ = new tree_block();
         }
     | "{" BlockItemList "}"
         {
+		    printf("Block\n");
             $$ = new tree_block();
             $$->block_item_list=std::shared_ptr<tree_block_item_list>($2);
         }
@@ -501,11 +549,13 @@ Block
 BlockItemList
     : BlockItem
         {
+		    printf("BlockItemList\n");
             $$ = new tree_block_item_list();
             $$->block_items.push_back(std::shared_ptr<tree_block_item>($1));
         }
     |  BlockItemList BlockItem
         {
+		    printf("BlockItemList\n");
             $1->block_items.push_back(std::shared_ptr<tree_block_item>($2));
             $$=$1;
         }
@@ -514,11 +564,13 @@ BlockItemList
 BlockItem
     : Decl
         {
+		    printf("BlockItem\n");
             $$ = new tree_block_item();
             $$->decl=std::shared_ptr<tree_decl>($1);
         }
     | Stmt
         {
+		    printf("BlockItem\n");
             $$ = new tree_block_item();
             $$->stmt=std::shared_ptr<tree_stmt>($1);
         }
@@ -529,6 +581,7 @@ Stmt
     : LVal "=" Exp ";"
         /* assign statement */
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto a_stmt = new tree_assign_stmt();
             a_stmt->l_val=std::shared_ptr<tree_l_val>($1);
@@ -537,21 +590,25 @@ Stmt
         }
     | ";"
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
         }
     | Exp ";"
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             $$->exp=std::shared_ptr<tree_exp>($1) ;
         }
     | Block
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             $$->block=std::shared_ptr<tree_block>($1) ;
         }
     /* if statement */
     | "if" "(" Cond ")" Stmt
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto if_stmt = new tree_if_stmt();
             if_stmt->cond = std::shared_ptr<tree_cond>($3);
@@ -560,6 +617,7 @@ Stmt
         }
     | "if" "(" Cond ")" Stmt "else" Stmt
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto if_else_stmt = new tree_if_else_stmt();
             if_else_stmt->cond = std::shared_ptr<tree_cond>($3);
@@ -571,6 +629,7 @@ Stmt
     /* while statement */
     | "while" "(" Cond ")" Stmt
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto while_stmt = new tree_while_stmt();
             while_stmt->cond = std::shared_ptr<tree_cond>($3);
@@ -579,12 +638,14 @@ Stmt
         }
     | "continue" ";"
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto continue_stmt = new tree_continue_stmt();
             $$->continue_stmt = std::shared_ptr<tree_continue_stmt>(continue_stmt) ;
         }
     | "break" ";"
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto break_stmt = new tree_break_stmt();
             $$->break_stmt = std::shared_ptr<tree_break_stmt>(break_stmt) ;
@@ -592,12 +653,14 @@ Stmt
     /* return statement */
     | "return" ";"
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto a_stmt = new tree_return_null_stmt();
             $$->return_null_stmt=std::shared_ptr<tree_return_null_stmt>(a_stmt) ;
         }
     | "return" Exp ";"
         {
+		    printf("Stmt\n");
             $$ = new tree_stmt();
             auto a_stmt = new tree_return_stmt();
             a_stmt->exp=std::shared_ptr<tree_exp>($2);
@@ -609,6 +672,7 @@ Stmt
 Exp
     : AddExp
         {
+		    printf("Exp\n");
             $$ = new tree_exp();
             $$->add_exp = std::shared_ptr<tree_add_exp>($1);
         }
@@ -617,6 +681,7 @@ Exp
 Cond
     : LOrExp
         {
+		    printf("Cond\n");
             $$ = new tree_cond();
             $$->l_or_exp = std::shared_ptr<tree_l_or_exp>($1);
         }
@@ -625,11 +690,13 @@ Cond
 LVal
     : TIDENTIFIER
         {
+		    printf("LVal\n");
             $$ = new tree_l_val();
             $$->id = *$1;
         }
     | ArrayIdent
         {
+		    printf("LVal\n");
             $$ = new tree_l_val();
             $$->array_ident = std::shared_ptr<tree_array_ident>($1);
         }
@@ -638,12 +705,14 @@ LVal
 ArrayIdent
     : TIDENTIFIER "[" Exp "]"
         {
+		    printf("ArrayIdent\n");
             $$ = new tree_array_ident();
             $$->id = *$1;
             $$->exp = std::shared_ptr<tree_exp>($3);
         }
     | ArrayIdent "[" Exp "]"
         {
+		    printf("ArrayIdent\n");
             $1->exp = std::shared_ptr<tree_exp>($3);
             $$ = $1;
         }
@@ -652,6 +721,7 @@ ArrayIdent
 Number
     : TINTEGER
         {
+		    printf("Number\n");
             $$ = new tree_number();
             $$->int_value = atoi($1->c_str());
             $$->float_value = (float)atof($1->c_str());
@@ -661,16 +731,19 @@ Number
 PrimaryExp
     : "(" Exp ")"
         {
+		    printf("PrimaryExp\n");
             $$ = new tree_primary_exp();
             $$->exp = std::shared_ptr<tree_exp>($2);
         }
     | LVal
         {
+		    printf("PrimaryExp\n");
             $$ = new tree_primary_exp();
             $$->l_val = std::shared_ptr<tree_l_val>($1);
         }
     | Number
         {
+		    printf("PrimaryExp\n");
             $$ = new tree_primary_exp();
             $$->number = std::shared_ptr<tree_number>($1);
         }
@@ -679,30 +752,35 @@ PrimaryExp
 UnaryExp
     : PrimaryExp
         {
+		    printf("UnaryExp\n");
             $$ = new tree_unary_exp();
             $$->primary_exp = std::shared_ptr<tree_primary_exp>($1);
         }
     | "+" UnaryExp
         {
+		    printf("UnaryExp\n");
             $$ = new tree_unary_exp();
             $$->unary_exp=std::shared_ptr<tree_unary_exp>($2);
             $$->oprt="+";
         }
     | "-" UnaryExp
         {
+		    printf("UnaryExp\n");
             $$ = new tree_unary_exp();
             $$->unary_exp=std::shared_ptr<tree_unary_exp>($2);
             $$->oprt="-";
         }
     | "!" UnaryExp
         {
+		    printf("UnaryExp\n");
             $$ = new tree_unary_exp();
             $$->unary_exp=std::shared_ptr<tree_unary_exp>($2);
             $$->oprt="!";
-        }
+        };
     /* FUNCTION CALL */
     | FuncCall
         {
+		    printf("FuncCall\n");
             $$ = new tree_unary_exp();
             $$->func_call = std::shared_ptr<tree_func_call>($1);
         }
@@ -711,11 +789,13 @@ UnaryExp
 FuncCall
     : TIDENTIFIER "(" ")"
         {
+		    printf("FuncCall\n");
             $$ = new tree_func_call();
             $$->id = *$1;
         }
     | TIDENTIFIER "(" FuncRParamList ")"
         {
+		    printf("FuncCall\n");
             $$ = new tree_func_call();
             $$->id = *$1;
             $$->funcr_paramlist = std::shared_ptr<tree_funcr_paramlist>($3);
@@ -725,11 +805,13 @@ FuncCall
 FuncRParamList
     : Exp
         {
+		    printf("FuncRParamList\n");
             $$ = new tree_funcr_paramlist();
             $$->exps.push_back(std::shared_ptr<tree_exp>($1));
         }
     | FuncRParamList "," Exp
         {
+		    printf("FuncRParamList\n");
             $1->exps.push_back(std::shared_ptr<tree_exp>($3));
             $$ = $1;
         }
@@ -740,11 +822,13 @@ FuncRParamList
 MulExp
     : UnaryExp
         {
+		    printf("MulExp\n");
             $$ = new tree_mul_exp();
             $$->unary_exp=std::shared_ptr<tree_unary_exp>($1);
         }
     | MulExp "*" UnaryExp
         {
+		    printf("MulExp\n");
             $$ = new tree_mul_exp();
             $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
             $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
@@ -752,6 +836,7 @@ MulExp
         }
     | MulExp "/" UnaryExp
         {
+		    printf("MulExp\n");
             $$ = new tree_mul_exp();
             $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
             $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
@@ -759,6 +844,7 @@ MulExp
         }
     | MulExp "%" UnaryExp
         {
+		    printf("MulExp\n");
             $$ = new tree_mul_exp();
             $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
             $$->unary_exp=std::shared_ptr<tree_unary_exp>($3);
@@ -768,11 +854,13 @@ MulExp
 AddExp
     : MulExp
         {
+		    printf("AddExp\n");
             $$ = new tree_add_exp();
             $$->mul_exp=std::shared_ptr<tree_mul_exp>($1);
         }
     | AddExp "+" MulExp
         {
+		    printf("AddExp\n");
             $$ = new tree_add_exp();
             $$->add_exp=std::shared_ptr<tree_add_exp>($1);
             $$->oprt="+";
@@ -780,6 +868,7 @@ AddExp
         }
     | AddExp "-" MulExp
         {
+		    printf("AddExp\n");
             $$ = new tree_add_exp();
             $$->add_exp=std::shared_ptr<tree_add_exp>($1);
             $$->oprt="-";
@@ -789,11 +878,13 @@ AddExp
 RelExp
     : AddExp
         {
+		    printf("RelExp\n");
             $$ = new tree_rel_exp();
             $$->add_exp=std::shared_ptr<tree_add_exp>($1);
         }
     | RelExp "<" AddExp
         {
+		    printf("RelExp\n");
             $$ = new tree_rel_exp();
             $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
             $$->oprt="<";
@@ -801,6 +892,7 @@ RelExp
         }
     | RelExp ">" AddExp
         {
+		    printf("RelExp\n");
             $$ = new tree_rel_exp();
             $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
             $$->oprt=">";
@@ -808,6 +900,7 @@ RelExp
         }
     | RelExp "<=" AddExp
         {
+		    printf("RelExp\n");
             $$ = new tree_rel_exp();
             $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
             $$->oprt="<=";
@@ -815,6 +908,7 @@ RelExp
         }
     | RelExp ">=" AddExp
         {
+		    printf("RelExp\n");
             $$ = new tree_rel_exp();
             $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
             $$->oprt=">=";
@@ -824,11 +918,13 @@ RelExp
 EqExp
     : RelExp
         {
+		    printf("EqExp\n");
             $$ = new tree_eq_exp();
             $$->rel_exp=std::shared_ptr<tree_rel_exp>($1);
         }
     | EqExp "==" RelExp
         {
+		    printf("EqExp\n");
             $$ = new tree_eq_exp();
             $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
             $$->oprt="==";
@@ -836,6 +932,7 @@ EqExp
         }
     | EqExp "!=" RelExp
         {
+		    printf("EqExp\n");
             $$ = new tree_eq_exp();
             $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
             $$->oprt="!=";
@@ -845,11 +942,13 @@ EqExp
 LAndExp
     : EqExp
         {
+		    printf("LAndExp\n");
             $$ = new tree_l_and_exp();
             $$->eq_exp=std::shared_ptr<tree_eq_exp>($1);
         }
     | LAndExp "&&" EqExp
         {
+		    printf("LAndExp\n");
             $$ = new tree_l_and_exp();
             $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($1);
             $$->eq_exp=std::shared_ptr<tree_eq_exp>($3);
@@ -858,11 +957,13 @@ LAndExp
 LOrExp
     : LAndExp
         {
+		    printf("LOrExp\n");
             $$ = new tree_l_or_exp();
             $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($1);
         }
     | LOrExp "||" LAndExp
         {
+		    printf("LOrExp\n");
             $$ = new tree_l_or_exp();
             $$->l_or_exp=std::shared_ptr<tree_l_or_exp>($1);
             $$->l_and_exp=std::shared_ptr<tree_l_and_exp>($3);

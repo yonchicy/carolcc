@@ -32,7 +32,7 @@ class tree_decl;
 class tree_const_def;
 class tree_var_def_list;
 class tree_var_def;
-class tree_func_type;
+// class tree_func_type;
 class tree_block_item_list;
 class tree_block_item;
 class tree_stmt;
@@ -191,18 +191,18 @@ public:
 class tree_func_def : public syntax_tree_node {
 public:
     void accept(visitor_base &v) final;
-    std::shared_ptr<tree_func_type> type;
+    std::shared_ptr<tree_basic_type> type;
     std::string id;
     std::shared_ptr<tree_func_fparams> funcfparams;
     std::list<std::shared_ptr<tree_block>> block;
 };
 
-class tree_func_type : public syntax_tree_node {
-public:
-    void accept(visitor_base &v) final;
+// class tree_func_type : public syntax_tree_node {
+// public:
+//     void accept(visitor_base &v) final;
 
-    type_helper type;
-};
+//     type_helper type;
+// };
 
 class tree_func_fparams : public syntax_tree_node {
 public:
