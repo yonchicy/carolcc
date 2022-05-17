@@ -1,9 +1,12 @@
 build/
-vscode/
+.vscode/
 .idea
 
 src/frontend/parser.cpp
 src/frontend/parser.h
 src/frontend/token.cpp
-cmake-build-debug
-.vscode/settings.json
+
+CMakeFiles/
+cmake-build-debug/
+cmake_install.cmake
+CMakeCache.txt
