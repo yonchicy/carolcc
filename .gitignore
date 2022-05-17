@@ -9,3 +9,4 @@ src/frontend/token.cpp
 CMakeFiles/
 cmake-build-debug/
 cmake_install.cmake
+CMakeCache.txt
