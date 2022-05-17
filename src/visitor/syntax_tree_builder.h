@@ -4,7 +4,9 @@
 #ifndef COMPILER_SYNTAX_TREE_BUILDER_H
 #define COMPILER_SYNTAX_TREE_BUILDER_H
 #include "visitor_base.h"
+#include "passes/module.h"
 #include "helpers/type_helper.h"
+class module;
 
 
 class syntax_tree_builder : public visitor_base {
@@ -41,6 +43,9 @@ public:
     void visit(tree_eq_exp &node) final;
     void visit(tree_l_and_exp &node) final;
     void visit(tree_l_or_exp &node) final;
+    syntax_tree_builder()= default;;
+private :
+    module* _module;
 };
 
 
