@@ -1,3 +1,0 @@
-/home/dongyubo/桌面/Compiler/our_compiler/CMakeFiles/compiler.dir
-/home/dongyubo/桌面/Compiler/our_compiler/CMakeFiles/edit_cache.dir
-/home/dongyubo/桌面/Compiler/our_compiler/CMakeFiles/rebuild_cache.dir

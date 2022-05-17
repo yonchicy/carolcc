@@ -1,3 +1,0 @@
-# Hashes of file build rules.
-952a74e2baa79a98b9590ade1411bfa8 carolcc/src/frontend/parser.cpp
-807533d8839d459dafa7302e1c61e76f carolcc/src/frontend/token.cpp
