@@ -25,6 +25,7 @@ class graph{
 public:
 	string file;
 	string filePath;
+	string dotPath;
     graphType gType;
     string name;
     string comment;
