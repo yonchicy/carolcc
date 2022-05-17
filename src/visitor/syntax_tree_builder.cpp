@@ -10,8 +10,19 @@ void syntax_tree_builder::visit(syntax_tree_node &node) {
     exit(1);
 }
 void syntax_tree_builder::visit(tree_comp_unit &node) {
+    for(const auto& decl:node.definitions){
+        decl->accept(*this);
+
+    }
+    for (const auto& func : node.functions) {
+        func->accept(*this);
+    }
 }
 void syntax_tree_builder::visit(tree_func_def &node) {
+    auto func_type = new type(node.type.get());
+    auto temp_func = new function(node.)
+    _module->_func_list.push_back()
+
 }
 void syntax_tree_builder::visit(tree_block &node) {
 }

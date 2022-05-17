@@ -10,4 +10,10 @@ enum class type_helper{
     FLOAT,
     VOID
 };
+class type {
+public:
+    explicit type(type_helper _type):_type(_type){}
+private :
+    type_helper _type;
+};
 #endif//COMPILER_TYPE_HELPER_H

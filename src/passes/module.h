@@ -1,6 +1,7 @@
 #ifndef COMPILER_MODULE_H
 #define COMPILER_MODULE_H
 
+#include "ir/function.h"
 #include<vector>
 
 class function;
@@ -12,7 +13,7 @@ public:
     ~module()=default;
 private:
     std::vector<function*> _func_list;
-    std::vector<varible*> _variable_list;
+    std::vector<varible*> _global_variable_list;
 };
 
 

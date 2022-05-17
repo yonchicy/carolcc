@@ -43,7 +43,9 @@ public:
     void visit(tree_eq_exp &node) final;
     void visit(tree_l_and_exp &node) final;
     void visit(tree_l_or_exp &node) final;
-    syntax_tree_builder()= default;;
+    syntax_tree_builder(){
+        _module = new module();
+    };;
 private :
     module* _module;
 };

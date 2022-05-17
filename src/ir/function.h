@@ -3,6 +3,7 @@
 #define COMPILER_FUNCTION_H
 
 #include "base_block.h"
+#include "helpers/type_helper.h"
 
 
 #include <string>
@@ -31,7 +32,12 @@ private:
 
 
 class function {
+public:
+    function(type* _type,std::string id,arguments* _args):_type(_type),_id(id),_args(_args){};
+
 private:
+    type* _type;
+    std::string _id;
     arguments* _args;
     std::vector<base_block*> _base_block_list;
 
